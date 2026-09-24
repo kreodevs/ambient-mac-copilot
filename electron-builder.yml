@@ -1,5 +1,6 @@
 appId: com.ambient.mac-copilot
 productName: Ambient Mac Copilot
+artifactName: Ambient-Mac-Copilot-${version}-${arch}.${ext}
 copyright: Copyright © 2026 Kreo Devs
 icon: build/icon.icns
 directories:
