@@ -9,6 +9,7 @@
 4. **BlackHole + ffmpeg** — prerequisitos para reuniones estéreo.
 5. **Diagnóstico** — `runDiagnostics()` en `diagnostics.ts` (Ajustes → Sistema o IPC `diagnostics:run`).
 6. **Auto-updater** — `autoUpdater.ts` con `electron-updater` contra GitHub Releases (solo builds empaquetadas).
+7. **Voice extras** — `voiceExtras.ts` descarga Kokoro/Picovoice desde GitHub Releases a `userData/voice-extras/` (no van en el DMG base).
 
 ## Variables de entorno
 

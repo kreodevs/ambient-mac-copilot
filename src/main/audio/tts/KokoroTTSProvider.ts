@@ -1,9 +1,9 @@
 import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
-import { app } from 'electron'
 import { resolveKokoroVoice } from '../../../shared/ttsOptions.js'
 import { getSettings } from '../../config/settingsStore.js'
+import { getKokoroCacheDir, importKokoroJs, isVoiceExtraInstalled } from '../../setup/voiceExtras.js'
 import { getResolvedOutputDevice, playWav } from '../audioOutput.js'
 import { MacOSTTSProvider } from './MacOSTTSProvider.js'
 
@@ -16,13 +16,19 @@ let kokoroInstance: KokoroInstance | null = null
 
 async function loadKokoro(): Promise<KokoroInstance | null> {
   if (kokoroInstance) return kokoroInstance
+  if (!isVoiceExtraInstalled('kokoro')) {
+    console.warn('[KokoroTTS] runtime not installed')
+    return null
+  }
   try {
-    const { KokoroTTS } = await import('kokoro-js')
+    const { KokoroTTS } = await importKokoroJs()
     const settings = getSettings()
-    const cacheDir = path.join(app.getPath('userData'), 'kokoro')
+    const cacheDir = getKokoroCacheDir()
     await fs.mkdir(cacheDir, { recursive: true })
 
-    kokoroInstance = await KokoroTTS.from_pretrained('onnx-community/Kokoro-82M-v1.0-ONNX', {
+    kokoroInstance = await (KokoroTTS as {
+      from_pretrained: (model: string, opts: Record<string, unknown>) => Promise<KokoroInstance>
+    }).from_pretrained('onnx-community/Kokoro-82M-v1.0-ONNX', {
       dtype: settings.tts.dtype,
       device: 'cpu',
       cache_dir: cacheDir,

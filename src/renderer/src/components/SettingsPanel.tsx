@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Cloud, Bot, Volume2, Mic, Activity } from 'lucide-react'
 import { DiagnosticsPanel } from './DiagnosticsPanel'
 import { UpdatePanel } from './UpdatePanel'
@@ -13,7 +13,9 @@ import {
   KOKORO_TTS_VOICES_ES,
   MACOS_TTS_VOICES,
 } from '@shared/ttsOptions'
+import { VoiceExtrasCard } from './VoiceExtrasCard'
 import { toast } from 'sonner'
+import type { VoiceExtrasStatus } from '@shared/types'
 
 const NAV = [
   { label: 'Proveedores', href: 'providers', icon: Cloud, description: 'Gateways LLM y claves API.' },
@@ -37,6 +39,17 @@ export function SettingsPanel({ section: controlledSection, onSectionChange }: S
     if (controlledSection === undefined) setInternalSection(next)
   }
   const [picovoiceKey, setPicovoiceKey] = useState('')
+  const [voiceExtras, setVoiceExtras] = useState<VoiceExtrasStatus | null>(null)
+
+  const refreshVoiceExtras = useCallback(async () => {
+    setVoiceExtras(await window.electronAPI.getVoiceExtrasStatus())
+  }, [])
+
+  useEffect(() => {
+    if (section === 'voice' || section === 'audio') {
+      void refreshVoiceExtras()
+    }
+  }, [section, refreshVoiceExtras])
 
   if (!settings) {
     return <div className="p-4 text-sm text-[var(--foreground-muted)]">Cargando ajustes…</div>
@@ -124,9 +137,13 @@ export function SettingsPanel({ section: controlledSection, onSectionChange }: S
               }
             >
               <option value="macos">macOS say (Monica, español)</option>
-              <option value="kokoro">Kokoro (local, ONNX)</option>
+              <option value="kokoro" disabled={!voiceExtras?.kokoro.installed}>
+                Kokoro (local, ONNX){voiceExtras?.kokoro.installed ? '' : ' — instalar abajo'}
+              </option>
             </select>
           </div>
+
+          <VoiceExtrasCard ids={['kokoro']} onInstalled={refreshVoiceExtras} />
 
           {!isKokoro ? (
             <div className="mac-form-field">
@@ -199,14 +216,39 @@ export function SettingsPanel({ section: controlledSection, onSectionChange }: S
       )}
       {section === 'audio' && (
         <div className="space-y-4">
-          <InputText
-            fullWidth
-            label="Wake word"
-            value={settings.audio.wakeWord}
-            onChange={(e) =>
-              update({ audio: { ...settings.audio, wakeWord: e.target.value } })
-            }
-          />
+          <div className="mac-form-field">
+            <label className="mac-form-label">Modo de activación</label>
+            <select
+              className="mac-form-select"
+              value={settings.audio.activationMode}
+              onChange={(e) =>
+                update({
+                  audio: {
+                    ...settings.audio,
+                    activationMode: e.target.value as typeof settings.audio.activationMode,
+                  },
+                })
+              }
+            >
+              <option value="push-to-talk">Push-to-talk (⌘⇧V)</option>
+              <option value="wake-word">Wake word (Picovoice)</option>
+              <option value="none">Solo chat / atajos</option>
+            </select>
+          </div>
+
+          {settings.audio.activationMode === 'wake-word' && (
+            <>
+              <VoiceExtrasCard ids={['picovoice']} onInstalled={refreshVoiceExtras} />
+              <InputText
+                fullWidth
+                label="Wake word"
+                value={settings.audio.wakeWord}
+                onChange={(e) =>
+                  update({ audio: { ...settings.audio, wakeWord: e.target.value } })
+                }
+              />
+            </>
+          )}
           <InputText
             fullWidth
             label="Ruta de ffmpeg"

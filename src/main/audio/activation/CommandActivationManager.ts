@@ -1,4 +1,5 @@
 import { getPicovoiceKey, getSettings, onSettingsChanged } from '../../config/settingsStore.js'
+import { isVoiceExtraInstalled } from '../../setup/voiceExtras.js'
 import { stateMachine } from '../../state/stateMachine.js'
 import { createActivationProvider } from './createActivationProvider.js'
 import type { CommandActivationProvider } from './types.js'
@@ -50,7 +51,7 @@ class CommandActivationManager {
       return
     }
 
-    if (activationMode === 'wake-word' && !getPicovoiceKey()) {
+    if (activationMode === 'wake-word' && (!getPicovoiceKey() || !isVoiceExtraInstalled('picovoice'))) {
       console.warn('[activation] wake-word mode requires Picovoice key')
       return
     }

@@ -38,4 +38,6 @@ export const IPC_CHANNELS = [
   'update:check',
   'update:download',
   'update:install',
+  'voice-extras:status',
+  'voice-extras:install',
 ] as const

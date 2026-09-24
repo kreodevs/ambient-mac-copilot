@@ -41,6 +41,11 @@ import {
   getUpdateStatus,
   installUpdate,
 } from '../setup/autoUpdater.js'
+import {
+  getVoiceExtrasStatus,
+  installVoiceExtra,
+} from '../setup/voiceExtras.js'
+import type { VoiceExtraId } from '../../shared/types.js'
 
 let activeThreadId = 'general'
 
@@ -135,7 +140,9 @@ export function registerIpcHandlers(getWindow: () => BrowserWindow | null): void
     const activationReady =
       settings.audio.activationMode === 'push-to-talk' ||
       settings.audio.activationMode === 'none' ||
-      (settings.audio.activationMode === 'wake-word' && hasAppSecret('picovoice'))
+      (settings.audio.activationMode === 'wake-word' &&
+        hasAppSecret('picovoice') &&
+        getVoiceExtrasStatus().picovoice.installed)
 
     return {
       completed: settings.onboardingCompleted ?? false,
@@ -146,7 +153,7 @@ export function registerIpcHandlers(getWindow: () => BrowserWindow | null): void
         permissions: perms.allGranted,
         blackhole: prereqs.blackhole.installed,
         ffmpeg: prereqs.ffmpeg.installed,
-        models: models.allReady,
+        models: true,
         kokoro: models.kokoro,
       },
     }
@@ -217,6 +224,22 @@ export function registerIpcHandlers(getWindow: () => BrowserWindow | null): void
   ipcMain.handle('update:check', () => checkForUpdates(true))
   ipcMain.handle('update:download', () => downloadUpdate())
   ipcMain.handle('update:install', () => installUpdate())
+
+  ipcMain.handle('voice-extras:status', () => getVoiceExtrasStatus())
+
+  ipcMain.handle('voice-extras:install', async (_, id: VoiceExtraId) => {
+    const win = getWindow()
+    const result = await installVoiceExtra(id, (progress) => {
+      win?.webContents.send('voice-extras:progress', { id, progress })
+    })
+    if (result.ok && id === 'kokoro') {
+      const models = await import('../models/modelManager.js')
+      await models.warmupAllModels((model, progress) => {
+        win?.webContents.send('models:download-progress', { model, progress })
+      })
+    }
+    return result
+  })
 
   const onStateChange = (state: CopilotState) => {
     getWindow()?.webContents.send('state:change', state)

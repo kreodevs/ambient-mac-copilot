@@ -19,3 +19,4 @@
 | `ToolPreviewCard` | Confirmación de acciones sensibles |
 | `EmailListCard` / `EmailDetailCard` | Resultados de correo (Fase 1) |
 | `UpdateBanner` / `UpdatePanel` | Actualizaciones automáticas desde GitHub Releases |
+| `VoiceExtrasCard` | Descarga opcional de Kokoro TTS y Picovoice |

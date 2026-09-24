@@ -13,7 +13,7 @@ const STEPS = [
   'Permisos',
   'Automatización',
   'BlackHole',
-  'Modelos',
+  'Extras (opcional)',
   'Listo',
 ]
 
@@ -59,7 +59,6 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
     ReturnType<typeof window.electronAPI.checkPermissions>
   > | null>(null)
   const [setupSteps, setSetupSteps] = useState<SetupSteps | null>(null)
-  const [modelProgress, setModelProgress] = useState<Record<string, number>>({})
   const [picovoiceKey, setPicovoiceKey] = useState('')
   const [testingProvider, setTestingProvider] = useState(false)
   const [automationStatus, setAutomationStatus] = useState<AutomationProbe[] | null>(
@@ -81,10 +80,6 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
 
   useEffect(() => {
     refreshStatus()
-    return window.electronAPI.onModelDownloadProgress(({ model, progress }) => {
-      setModelProgress((prev) => ({ ...prev, [model]: progress }))
-      if (progress >= 1) refreshStatus()
-    })
   }, [refreshStatus])
 
   useEffect(() => {
@@ -173,19 +168,6 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
     if (automationAllGranted) return
     toast.message('Acepta los diálogos de macOS para Mail, Notes y Reminders…')
     await refreshAutomationStatus(true)
-  }
-
-  const warmupModels = async () => {
-    toast.message('Descargando modelos… puede tardar varios minutos')
-    const result = await window.electronAPI.warmupModels()
-    await refreshStatus()
-    if (result.ok) {
-      toast.success('Kokoro listo')
-    } else if (result.kokoro) {
-      toast.warning(result.error ?? 'Kokoro parcial; se usará macOS say como fallback')
-    } else {
-      toast.error(result.error ?? 'Error descargando Kokoro')
-    }
   }
 
   const finish = async () => {
@@ -449,23 +431,14 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
           )}
 
           {step === 5 && (
-            <div className="space-y-3">
-              <p className="text-sm"><strong>6. Modelo local</strong> — Kokoro TTS (STT vía Apple Speech, sin descarga).</p>
-              {['kokoro'].map((model) => (
-                <div key={model}>
-                  <div className="mb-1 flex justify-between text-xs">
-                    <span>{model}</span>
-                    <span>{Math.round((modelProgress[model] ?? 0) * 100)}%</span>
-                  </div>
-                  <div className="liquid-glass-subtle h-1.5 rounded-full">
-                    <div
-                      className="h-full rounded-full bg-[var(--accent)] transition-all"
-                      style={{ width: `${(modelProgress[model] ?? 0) * 100}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
-              <Button onClick={warmupModels}>Descargar modelos</Button>
+            <div className="space-y-3 text-sm">
+              <p>
+                <strong>6. Extras de voz (opcional)</strong> — Por defecto usamos la voz de macOS y
+                Apple Speech para STT. Kokoro y Picovoice se instalan después en Ajustes si los necesitas.
+              </p>
+              <p className="text-xs text-[var(--text-muted)]">
+                Ajustes → Voz (Kokoro TTS) · Ajustes → Audio (wake word Picovoice)
+              </p>
             </div>
           )}
 
@@ -476,7 +449,7 @@ export function OnboardingWizard({ onComplete }: OnboardingWizardProps) {
                 <p>{setupSteps.providers ? '✓' : '○'} OpenRouter</p>
                 <p>{setupSteps.activation ? '✓' : '○'} Activación de voz</p>
                 <p>{setupSteps.permissions ? '✓' : '○'} Permisos</p>
-                <p>{setupSteps.models ? '✓' : '○'} Modelos locales</p>
+                <p>✓ Voz macOS (por defecto)</p>
                 <p>{setupSteps.blackhole ? '✓' : '○'} BlackHole</p>
                 <p>{setupSteps.ffmpeg ? '✓' : '○'} ffmpeg</p>
               </div>

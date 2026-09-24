@@ -6,6 +6,8 @@ import type {
   ChatThread,
   CopilotState,
   UpdateStatus,
+  VoiceExtraId,
+  VoiceExtrasStatus,
 } from '../shared/types.js'
 
 const electronAPI = {
@@ -92,6 +94,14 @@ const electronAPI = {
     const handler = (_: unknown, status: UpdateStatus) => cb(status)
     ipcRenderer.on('update:status', handler)
     return () => ipcRenderer.removeListener('update:status', handler)
+  },
+  getVoiceExtrasStatus: (): Promise<VoiceExtrasStatus> => ipcRenderer.invoke('voice-extras:status'),
+  installVoiceExtra: (id: VoiceExtraId): Promise<{ ok: boolean; error?: string }> =>
+    ipcRenderer.invoke('voice-extras:install', id),
+  onVoiceExtraProgress: (cb: (data: { id: VoiceExtraId; progress: number }) => void) => {
+    const handler = (_: unknown, data: { id: VoiceExtraId; progress: number }) => cb(data)
+    ipcRenderer.on('voice-extras:progress', handler)
+    return () => ipcRenderer.removeListener('voice-extras:progress', handler)
   },
 }
 

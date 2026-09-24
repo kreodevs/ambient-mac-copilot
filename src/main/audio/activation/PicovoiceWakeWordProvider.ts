@@ -1,4 +1,9 @@
 import { getPicovoiceKey, getSettings } from '../../config/settingsStore.js'
+import {
+  importPorcupine,
+  importPvRecorder,
+  isVoiceExtraInstalled,
+} from '../../setup/voiceExtras.js'
 import { stateMachine } from '../../state/stateMachine.js'
 import type { CommandActivationProvider } from './types.js'
 
@@ -18,14 +23,26 @@ export class PicovoiceWakeWordProvider implements CommandActivationProvider {
       console.warn('[activation:wake-word] No Picovoice key configured')
       return
     }
+    if (!isVoiceExtraInstalled('picovoice')) {
+      console.warn('[activation:wake-word] Picovoice runtime not installed')
+      return
+    }
 
     try {
-      const { Porcupine } = await import('@picovoice/porcupine-node')
-      const { PvRecorder } = await import('@picovoice/pvrecorder-node')
+      const { Porcupine } = await importPorcupine()
+      const { PvRecorder } = await importPvRecorder()
       const settings = getSettings()
 
-      const porcupine = new Porcupine(key, [settings.audio.wakeWord])
-      const recorder = new PvRecorder(porcupine.frameLength, -1)
+      const porcupine = new (Porcupine as new (accessKey: string, keywords: string[]) => {
+        frameLength: number
+        process: (frame: Int16Array) => number
+        release: () => void
+      })(key, [settings.audio.wakeWord])
+      const recorder = new (PvRecorder as new (frameLength: number, deviceIndex: number) => {
+        start: () => void
+        stop: () => void
+        read: () => Int16Array
+      })(porcupine.frameLength, -1)
       recorder.start()
 
       this.porcupine = porcupine

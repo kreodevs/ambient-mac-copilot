@@ -33,7 +33,7 @@ export interface AppSettings {
     language: string
   }
   tts: {
-    provider: 'macos' | 'kokoro' | 'auto'
+    provider: 'macos' | 'kokoro'
     macosVoice: string
     kokoroVoice: string
     speed: number
@@ -112,6 +112,19 @@ export interface ToolCatalogEntry {
   risks: string[]
   requiresConfirmation: boolean
   parameters: Record<string, { type: string; description: string; required?: boolean }>
+}
+
+export type VoiceExtraId = 'kokoro' | 'picovoice'
+
+export interface VoiceExtraStatus {
+  installed: boolean
+  installing: boolean
+  sizeHintMb: number
+}
+
+export interface VoiceExtrasStatus {
+  kokoro: VoiceExtraStatus
+  picovoice: VoiceExtraStatus
 }
 
 export type UpdateStatus =
@@ -197,6 +210,9 @@ export interface ElectronAPI {
   downloadUpdate(): Promise<UpdateStatus>
   installUpdate(): Promise<void>
   onUpdateStatus(cb: (status: UpdateStatus) => void): () => void
+  getVoiceExtrasStatus(): Promise<VoiceExtrasStatus>
+  installVoiceExtra(id: VoiceExtraId): Promise<{ ok: boolean; error?: string }>
+  onVoiceExtraProgress(cb: (data: { id: VoiceExtraId; progress: number }) => void): () => void
 }
 
 declare global {

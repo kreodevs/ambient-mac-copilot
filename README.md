@@ -23,8 +23,9 @@
 | Capacidad | Descripción |
 | --- | --- |
 | **Chat multihilo** | Conversaciones persistentes con contexto local (SQLite) |
-| **Voz local** | STT con Apple Speech, TTS con macOS o Kokoro |
-| **Wake word** | Activación por Picovoice Porcupine |
+| **Voz local** | STT con Apple Speech, TTS con macOS say (por defecto) |
+| **Extras opcionales** | Kokoro TTS y Picovoice se descargan desde Ajustes |
+| **Wake word** | Picovoice (opcional, instalación bajo demanda) |
 | **Correo** | Listar, buscar, leer y enviar vía Mail.app |
 | **Reuniones** | Grabación estéreo (mic + sistema) y resumen en Notes |
 | **Routing Jev** | Clasificación rápida de intenciones antes del orchestrator |
@@ -48,7 +49,7 @@ La app comprueba actualizaciones al iniciar y cada pocas horas. Si hay una versi
 | **macOS 13+** | Apple Silicon o Intel |
 | **BlackHole 2ch** | Loopback de audio para reuniones |
 | **ffmpeg** | Grabador estéreo (`brew install ffmpeg`) |
-| **Picovoice Access Key** | Wake word (opcional) |
+| **Picovoice Access Key** | Solo si instalas wake word desde Ajustes |
 | **LLM gateway** | OpenRouter, 9router, Ollama u otro compatible OpenAI |
 
 ### Permisos macOS
@@ -88,8 +89,9 @@ npm run build:mac
 
 Los artefactos quedan en `release/`:
 
-- `Ambient Mac Copilot-x.y.z.dmg` — instalación manual
-- `Ambient Mac Copilot-x.y.z-mac.zip` — usado por el auto-updater
+- `Ambient-Mac-Copilot-x.y.z-arm64.dmg` — instalación manual (~110 MB, sin ML embebido)
+- `Ambient-Mac-Copilot-x.y.z-arm64.zip` — usado por el auto-updater
+- `kokoro-mac-arm64.zip` / `picovoice-mac-arm64.zip` — extras opcionales de voz
 
 ### Publicar release
 
