@@ -1,0 +1,10 @@
+<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Template tray icon: black on transparent (macOS menu bar) -->
+  <rect x="11" y="22" width="3" height="8" rx="1.5" fill="#000"/>
+  <rect x="16" y="16" width="3" height="14" rx="1.5" fill="#000"/>
+  <rect x="21" y="12" width="3" height="18" rx="1.5" fill="#000"/>
+  <rect x="26" y="18" width="3" height="12" rx="1.5" fill="#000"/>
+  <rect x="31" y="21" width="3" height="9" rx="1.5" fill="#000"/>
+  <circle cx="22" cy="33" r="1.8" fill="#000"/>
+  <path d="M35 6.6L35.8 9L38.2 9.8L35.8 10.6L35 13L34.2 10.6L31.8 9.8L34.2 9L35 6.6Z" fill="#000"/>
+</svg>

@@ -1,0 +1,51 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="80" x2="920" y2="940" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B1220"/>
+      <stop offset="0.45" stop-color="#075985"/>
+      <stop offset="1" stop-color="#0EA5E9"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(300 260) rotate(90) scale(220)">
+      <stop stop-color="#38BDF8" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#38BDF8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(760 760) rotate(90) scale(260)">
+      <stop stop-color="#7DD3FC" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#7DD3FC" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="glass" x1="512" y1="250" x2="512" y2="780" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.42"/>
+      <stop offset="0.55" stop-color="#FFFFFF" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.04"/>
+    </linearGradient>
+    <linearGradient id="wave" x1="360" y1="420" x2="664" y2="680" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F0F9FF"/>
+      <stop offset="1" stop-color="#BAE6FD"/>
+    </linearGradient>
+    <filter id="softShadow" x="0" y="0" width="1024" height="1024" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#020617" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <rect width="1024" height="1024" fill="url(#glowA)"/>
+  <rect width="1024" height="1024" fill="url(#glowB)"/>
+
+  <circle cx="512" cy="530" r="292" fill="url(#glass)" stroke="#FFFFFF" stroke-opacity="0.22" stroke-width="3"/>
+  <ellipse cx="512" cy="390" rx="150" ry="78" fill="#FFFFFF" fill-opacity="0.16"/>
+
+  <g filter="url(#softShadow)">
+    <rect x="392" y="500" width="40" height="110" rx="20" fill="url(#wave)" fill-opacity="0.88"/>
+    <rect x="452" y="455" width="40" height="200" rx="20" fill="url(#wave)"/>
+    <rect x="512" y="475" width="40" height="160" rx="20" fill="url(#wave)" fill-opacity="0.96"/>
+    <rect x="572" y="430" width="40" height="250" rx="20" fill="url(#wave)"/>
+    <rect x="632" y="510" width="40" height="90" rx="20" fill="url(#wave)" fill-opacity="0.82"/>
+  </g>
+
+  <circle cx="512" cy="700" r="10" fill="#F0F9FF" fill-opacity="0.9"/>
+
+  <path d="M812 198L822.5 232L856 242.5L822.5 253L812 287L801.5 253L768 242.5L801.5 232L812 198Z" fill="#F0F9FF"/>
+  <path d="M812 198L822.5 232L856 242.5L822.5 253L812 287L801.5 253L768 242.5L801.5 232L812 198Z" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="2"/>
+
+  <path d="M220 760C300 700 360 720 430 690C500 660 560 700 640 670C720 640 780 660 860 610" stroke="#FFFFFF" stroke-opacity="0.12" stroke-width="4" stroke-linecap="round"/>
+</svg>

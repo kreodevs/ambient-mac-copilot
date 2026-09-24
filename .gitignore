@@ -1,0 +1,14 @@
+node_modules
+dist
+dist-electron
+release
+*.db
+.DS_Store
+.env
+.env.*
+*.log
+.idea
+.vscode
+coverage
+Thumbs.db
+Sin título/

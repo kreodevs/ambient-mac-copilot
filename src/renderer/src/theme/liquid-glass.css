@@ -1,0 +1,240 @@
+/* Ventana frameless de Electron */
+.app-window-drag {
+  -webkit-app-region: drag;
+}
+
+.app-window-no-drag {
+  -webkit-app-region: no-drag;
+}
+
+/* Shell principal — material tipo ventana de macOS */
+:root {
+  --lg-blur: 28px;
+  --lg-saturate: 120%;
+  --lg-bg: rgba(255, 255, 255, 0.04);
+  --lg-bg-strong: rgba(30, 30, 30, 0.55);
+  --lg-bg-subtle: rgba(255, 255, 255, 0.06);
+  --lg-border: rgba(255, 255, 255, 0.08);
+  --lg-border-soft: rgba(255, 255, 255, 0.06);
+  --lg-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.28);
+  --lg-shadow-soft: 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.mac-window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--mac-window-radius);
+  background: var(--lg-bg-strong);
+  backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+  -webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+  box-shadow: var(--lg-shadow);
+}
+
+.mac-titlebar {
+  min-height: 52px;
+  padding-top: 8px;
+  padding-left: 78px;
+  padding-right: 12px;
+}
+
+.mac-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--mac-toolbar);
+  border-bottom: 1px solid var(--border);
+}
+
+.mac-content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.mac-sidebar {
+  background: var(--mac-sidebar);
+  border-right: 1px solid var(--border);
+}
+
+.mac-settings-layout {
+  min-height: 0;
+}
+
+.mac-settings-sidebar {
+  overflow-y: auto;
+}
+
+.mac-settings-content {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.mac-settings-nav-item[aria-current='page'] {
+  box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.06);
+}
+
+.mac-settings-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: rgba(28, 28, 30, 0.92);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+}
+
+.mac-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mac-form-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--foreground-muted);
+}
+
+.mac-form-select {
+  width: 100%;
+  height: 2.25rem;
+  padding: 0 0.625rem;
+  font-size: 13px;
+  color: var(--foreground);
+  background: var(--input);
+  border: 0.5px solid var(--input-border);
+  border-radius: var(--radius-sm);
+  box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.06);
+}
+
+.mac-form-select:focus {
+  outline: none;
+  border-color: rgba(10, 132, 255, 0.65);
+  box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.22);
+}
+
+.mac-inline-card {
+  border-radius: var(--radius-sm);
+  border: 0.5px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.625rem;
+}
+
+.mac-command-palette {
+  background: rgba(36, 36, 38, 0.98) !important;
+}
+
+.mac-command-palette [cmdk-root] {
+  background: transparent;
+}
+
+.mac-command-palette [cmdk-item][data-selected='true'] {
+  background: rgba(10, 132, 255, 0.18);
+  color: var(--foreground);
+}
+
+.mac-segmented {
+  display: inline-flex;
+  padding: 2px;
+  border-radius: var(--radius-sm);
+  background: var(--mac-control-bg);
+  border: 0.5px solid rgba(255, 255, 255, 0.06);
+}
+
+.mac-segmented [data-state='active'] {
+  background: var(--mac-segment-selected);
+  color: var(--foreground);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+
+.liquid-glass-panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.liquid-glass-panel::after {
+  display: none;
+}
+
+.liquid-glass-subtle {
+  background: var(--lg-bg-subtle);
+  border: 0.5px solid var(--lg-border-soft);
+  box-shadow: var(--lg-shadow-soft);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+}
+
+.liquid-glass-input {
+  background: var(--input) !important;
+  border: 0.5px solid var(--input-border) !important;
+  box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius-sm) !important;
+}
+
+.liquid-glass-input:focus {
+  border-color: rgba(10, 132, 255, 0.65) !important;
+  box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.22);
+}
+
+.liquid-glass-pill {
+  background: var(--mac-control-bg);
+  border: 0.5px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+
+.liquid-glass-pill-active {
+  background: var(--primary);
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+}
+
+.liquid-glass-overlay {
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(12px) saturate(110%);
+  -webkit-backdrop-filter: blur(12px) saturate(110%);
+}
+
+/* Hoja / diálogo modal (contenido opaco sobre el overlay) */
+.mac-dialog {
+  background: rgba(36, 36, 38, 0.96);
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.35),
+    0 20px 60px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(40px) saturate(160%);
+  -webkit-backdrop-filter: blur(40px) saturate(160%);
+}
+
+.liquid-glass-ambient {
+  display: none;
+}
+
+.liquid-glass-divider {
+  border-color: var(--border);
+}
+
+.liquid-glass-msg-user {
+  background: rgba(255, 255, 255, 0.07);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.liquid-glass-msg-assistant {
+  background: rgba(10, 132, 255, 0.1);
+  border: 0.5px solid rgba(10, 132, 255, 0.18);
+  border-radius: var(--radius-md);
+}

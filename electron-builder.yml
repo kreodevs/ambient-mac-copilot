@@ -1,0 +1,35 @@
+appId: com.ambient.mac-copilot
+productName: Ambient Mac Copilot
+copyright: Copyright © 2026 Kreo Devs
+icon: build/icon.icns
+directories:
+  buildResources: build
+  output: release
+files:
+  - dist
+  - dist-electron
+publish:
+  provider: github
+  owner: kreodevs
+  repo: ambient-mac-copilot
+  releaseType: release
+mac:
+  target:
+    - dmg
+    - zip
+  category: public.app-category.productivity
+  hardenedRuntime: true
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  extendInfo:
+    LSUIElement: true
+    NSMicrophoneUsageDescription: Ambient Mac Copilot usa el micrófono para comandos de voz y reuniones.
+    NSSpeechRecognitionUsageDescription: Ambient Mac Copilot transcribe tu voz localmente con Apple Speech.
+afterSign: build/notarize.js
+extraResources:
+  - from: node_modules/electron-native-speech-backend-macos/bin/SpeechHelper.app
+    to: SpeechHelper.app
+  - from: build/
+    to: build/
+    filter:
+      - "!icon.*"

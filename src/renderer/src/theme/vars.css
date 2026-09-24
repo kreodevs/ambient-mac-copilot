@@ -1,0 +1,95 @@
+/* macOS-native dark theme (System Settings–like) */
+:root {
+  --primary: #0A84FF;
+  --primary-foreground: #FFFFFF;
+  --primary-hover: #409CFF;
+  --background: transparent;
+  --background-secondary: rgba(255, 255, 255, 0.04);
+  --background-tertiary: rgba(255, 255, 255, 0.06);
+  --foreground: rgba(255, 255, 255, 0.92);
+  --foreground-muted: rgba(255, 255, 255, 0.55);
+  --foreground-subtle: rgba(255, 255, 255, 0.38);
+  --text-primary: var(--foreground);
+  --text-muted: var(--foreground-muted);
+  --accent: #0A84FF;
+  --accent-foreground: #FFFFFF;
+  --accent-muted: #64B5FF;
+  --card: rgba(255, 255, 255, 0.05);
+  --card-foreground: var(--foreground);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --popover: #323232;
+  --popover-foreground: var(--foreground);
+  --secondary: rgba(255, 255, 255, 0.06);
+  --secondary-foreground: var(--foreground);
+  --muted: rgba(255, 255, 255, 0.05);
+  --muted-foreground: var(--foreground-muted);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.14);
+  --input: rgba(255, 255, 255, 0.06);
+  --input-border: rgba(255, 255, 255, 0.12);
+  --input-focus: #0A84FF;
+  --ring: #0A84FF;
+  --ring-offset: #1c1c1e;
+  --destructive: #FF453A;
+  --success: #30D158;
+  --warning: #FFD60A;
+  --info: #64D2FF;
+  --mac-sidebar: rgba(0, 0, 0, 0.18);
+  --mac-toolbar: rgba(255, 255, 255, 0.03);
+  --mac-control-bg: rgba(118, 118, 128, 0.24);
+  --mac-segment-selected: rgba(255, 255, 255, 0.14);
+  --mac-window-radius: 10px;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.28);
+  --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.35);
+  --shadow-gold: none;
+  --radius: 0.625rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.625rem;
+  --radius-2xl: 0.75rem;
+  --spacing-xxs: 0.125rem;
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 0.75rem;
+  --spacing-lg: 1rem;
+  --spacing-xl: 1.25rem;
+  --spacing-2xl: 1.5rem;
+  --transition-base: 150ms;
+  --transition-fast: 100ms;
+  --spring-duration-medium: 200ms;
+  --ease-spring-glide: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', system-ui, sans-serif;
+  --z-modal: 50;
+}
+
+.light {
+  --primary: #007AFF;
+  --primary-foreground: #FFFFFF;
+  --primary-hover: #0066D6;
+  --background: transparent;
+  --background-secondary: rgba(0, 0, 0, 0.03);
+  --foreground: rgba(0, 0, 0, 0.85);
+  --foreground-muted: rgba(0, 0, 0, 0.5);
+  --accent: #007AFF;
+  --card: rgba(255, 255, 255, 0.72);
+  --card-border: rgba(0, 0, 0, 0.08);
+  --border: rgba(0, 0, 0, 0.08);
+  --input: rgba(255, 255, 255, 0.9);
+  --input-border: rgba(0, 0, 0, 0.12);
+  --mac-sidebar: rgba(0, 0, 0, 0.04);
+  --mac-toolbar: rgba(255, 255, 255, 0.5);
+  --mac-control-bg: rgba(118, 118, 128, 0.12);
+  --mac-segment-selected: #FFFFFF;
+}
+
+/* === Global Styles === */
+* { border-color: var(--border); }
+body {
+  background-color: transparent;
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  letter-spacing: -0.01em;
+}
