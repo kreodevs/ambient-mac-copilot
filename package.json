@@ -1,6 +1,6 @@
 {
   "name": "ambient-mac-copilot",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Ambient Mac Copilot — asistente ambient para macOS con voz, chat y automatización local",
   "author": "Kreo Devs",
   "license": "AGPL-3.0-or-later",
