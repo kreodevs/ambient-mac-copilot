@@ -1,6 +1,6 @@
 {
   "name": "ambient-mac-copilot",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Ambient Mac Copilot — asistente ambient para macOS con voz, chat y automatización local",
   "author": "Kreo Devs",
   "license": "AGPL-3.0-or-later",
@@ -24,6 +24,7 @@
     "release:local": "npm run build:internal && npm run build:local-sign",
     "release:local:manual": "npm run release:local && echo '\nListo. Ahora revisa los artefactos en ./release y haz git add/commit/push manualmente.'",
     "release:manual:github": "VERSION=${VERSION:-$(node -p \"require('./package.json').version\")}; npm run release:local && echo '\nArtefactos listos para GitHub release:' && ls -1 release/*.dmg release/*.zip 2>/dev/null && echo '\nSube manualmente con:' && echo \"gh release create v${VERSION} release/*.dmg release/*.zip --title 'Ambient Mac Copilot v${VERSION}' --notes 'Build local ad hoc sin Apple Developer. Debe habilitarse manualmente en Ajustes > Privacidad y seguridad.'\"",
+    "release:next": "npm version patch --no-git-tag-version && npm run release:local && VERSION=$(node -p \"require('./package.json').version\") && gh release create \"v${VERSION}\" release/*.dmg release/*.zip --title \"Ambient Mac Copilot v${VERSION}\" --notes \"Build local ad hoc sin Apple Developer. Debe habilitarse manualmente en Ajustes > Privacidad y seguridad.\" && git add -A && git commit -m \"release: v${VERSION}\" && git push",
     "prepush:local": "npm run release:local",
     "git:release-local": "npm run release:local && git add -A && git commit -m \"release: local build $(date +%Y-%m-%d-%H%M%S)\" && git push",
     "release:mac": "vite build && electron-builder --mac --config electron-builder.yml --publish always",
