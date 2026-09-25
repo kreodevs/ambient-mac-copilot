@@ -1,0 +1,51 @@
+name: Clean old release assets
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Delete assets from older releases
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          OWNER_REPO="${{ github.repository }}"
+          LATEST_TAG="${{ github.event.release.tag_name }}"
+
+          echo "Latest release: $LATEST_TAG"
+
+          gh release list --limit 50 --repo "$OWNER_REPO" --json tagName > releases.json
+
+          OLD_TAGS=$(jq -r --arg CURRENT "$LATEST_TAG" '.[] | select(.tagName != $CURRENT) | .tagName' releases.json)
+
+          if [ -z "$OLD_TAGS" ]; then
+            echo "No hay releases antiguas con assets para limpiar."
+            exit 0
+          fi
+
+          for tag in $OLD_TAGS; do
+            echo "Procesando release $tag"
+            ASSET_IDS=$(gh release view "$tag" --repo "$OWNER_REPO" --json assets --jq '.assets[].id')
+
+            if [ -z "$ASSET_IDS" ]; then
+              echo "La release $tag no tiene assets."
+              continue
+            fi
+
+            for asset_id in $ASSET_IDS; do
+              echo "Borrando asset $asset_id de $tag"
+              gh api -X DELETE \
+                -H "Accept: application/vnd.github+json" \
+                "repos/$OWNER_REPO/releases/assets/$asset_id"
+            done
+          done
+
+          echo "Limpieza de assets finalizada."

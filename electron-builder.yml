@@ -20,6 +20,7 @@ mac:
     - zip
   category: public.app-category.productivity
   hardenedRuntime: true
+  identity: "Ambient Copilot"
   entitlements: build/entitlements.mac.plist
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
